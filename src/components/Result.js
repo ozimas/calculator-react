@@ -2,7 +2,11 @@ import React from "react";
 
 class Result extends React.Component {
     render() {
-        return "Result";
+        return (
+            <div className="result">
+                {this.props.value}
+            </div> 
+        );
     }
 }
 
