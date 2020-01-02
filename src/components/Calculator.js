@@ -48,7 +48,12 @@ class Calculator extends React.Component {
       result: 0
     });
   }
-  clickResultFinish() {}
+  clickResultFinish() {
+    this.setState({
+      // eslint-disable-next-line
+      result: eval(this.state.result)
+    });
+  }
   resultIsZero() {
     return /^0$/.test(this.state.result);
   }
