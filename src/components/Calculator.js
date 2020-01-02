@@ -42,7 +42,16 @@ class Calculator extends React.Component {
       });
     }
   }
-  clickDecimalButton() {}
+  clickDecimalButton(event) {
+    let result = this.state.result;
+    let regex1 = !/\+|-|\*|\/|\./.test(result[result.length - 1]);
+    let regex2 = !/\.\d+$/.test(result);
+    if (regex1 && regex2) {
+      this.setState({
+        result: result + event.target.value
+      });
+    }
+  }
   clickClearResult() {
     this.setState({
       result: 0
