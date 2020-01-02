@@ -24,7 +24,11 @@ class Calculator extends React.Component {
   }
   clickSpecialChar() {}
   clickDecimalButton() {}
-  clickClearResult() {}
+  clickClearResult() {
+    this.setState({
+      result: 0
+    });
+  }
   clickResultFinish() {}
   resultIsZero() {
     return /^0$/.test(this.state.result);
