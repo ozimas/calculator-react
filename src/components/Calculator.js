@@ -22,7 +22,26 @@ class Calculator extends React.Component {
       this.setState({ result: this.state.result + event.target.value });
     }
   }
-  clickSpecialChar() {}
+  clickSpecialChar(event) {
+    let result = this.state.result;
+    if (event.target.value === "-" && !/-/.test(result[result.length - 1])) {
+      this.setState({
+        result: result + event.target.value
+      });
+    } else if (/\+|\*|\/|\./.test(result[result.length - 1])) {
+      this.setState({
+        result: result.substring(0, result.length - 1) + event.target.value
+      });
+    } else if (!/-/.test(result[result.length - 1])) {
+      this.setState({
+        result: result + event.target.value
+      });
+    } else {
+      this.setState({
+        result: result.substring(0, result.length - 2) + event.target.value
+      });
+    }
+  }
   clickDecimalButton() {}
   clickClearResult() {
     this.setState({
