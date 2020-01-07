@@ -7,7 +7,8 @@ class Calculator extends React.Component {
     super(props);
     this.state = {
       calculation: 0,
-      result: ''
+      result: '',
+      finishResult: false
     };
     this.clickNumberButton = this.clickNumberButton.bind(this);
     this.clickSpecialChar = this.clickSpecialChar.bind(this);
@@ -38,17 +39,20 @@ class Calculator extends React.Component {
   clickClearResult() {
     this.setState({
       result: "",
-      calculation: 0
+      calculation: 0,
+      finishResult: false
     });
   }
   clickResultFinish(event) {
+    let equalChar = ' = ';
     this.setState({
       result: this.state.result + this.state.calculation
     }, () => {
       // eslint-disable-next-line
       let res = eval(this.state.result);
       this.setState({
-        result: this.state.result + '=' + res
+        result: this.state.result + equalChar + res,
+        finishResult: true
       })
     });
   }
@@ -63,7 +67,7 @@ class Calculator extends React.Component {
       <div className="calculator">
         <Result value={this.state.result} />
         <Result value={this.state.calculation} />
-        <div className="buttons__container">
+        <div className={`buttons__container ${this.state.finishResult ? "disabled" : ""}`}>
           <Button value="1" id="one" clickFunc={this.clickNumberButton} />
           <Button value="2" id="two" clickFunc={this.clickNumberButton} />
           <Button value="3" id="three" clickFunc={this.clickNumberButton} />

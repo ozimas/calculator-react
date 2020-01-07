@@ -47,6 +47,19 @@ body {
 	justify-content: center;
   border-radius: $radius;
   overflow: hidden;
+  background-color: $bgButton;
+  position: relative;
+  z-index: 1;
+  &.disabled{
+    button:not(#clear) {
+      opacity: .5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    #clear {
+      background-color: $bgButtonHover;
+    }
+  }
 }
 .button {
   width: 100%;
