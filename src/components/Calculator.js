@@ -7,7 +7,7 @@ class Calculator extends React.Component {
     super(props);
     this.state = {
       calculation: 0,
-      result: '',
+      result: 0,
       finishResult: false
     };
     this.clickNumberButton = this.clickNumberButton.bind(this);
@@ -17,15 +17,16 @@ class Calculator extends React.Component {
     this.clickResultFinish = this.clickResultFinish.bind(this);
   }
   clickNumberButton(event) {
-    if (this.isZero(this.state.calculation)) {
+    if(this.isZero(this.state.calculation)) {
       this.setState({ calculation: event.target.value });
     } else {
       this.setState({ calculation: this.state.calculation + event.target.value });
     }
   }
   clickSpecialChar(event) {
+    let res = this.isZero(this.state.result) ? '' : this.state.result;
     this.setState({ 
-      result: this.state.result + this.state.calculation + event.target.value,
+      result: res + this.state.calculation + event.target.value,
       calculation: 0
     });
   }
@@ -38,7 +39,7 @@ class Calculator extends React.Component {
   }
   clickClearResult() {
     this.setState({
-      result: "",
+      result: 0,
       calculation: 0,
       finishResult: false
     });
@@ -65,8 +66,7 @@ class Calculator extends React.Component {
   render() {
     return (
       <div className="calculator">
-        <Result value={this.state.result} />
-        <Result value={this.state.calculation} />
+        <Result result={this.state.result} calculation={this.state.calculation}/>
         <div className={`buttons__container ${this.state.finishResult ? "disabled" : ""}`}>
           <Button value="1" id="one" clickFunc={this.clickNumberButton} />
           <Button value="2" id="two" clickFunc={this.clickNumberButton} />
