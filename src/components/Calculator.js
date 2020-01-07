@@ -25,8 +25,10 @@ class Calculator extends React.Component {
   }
   clickSpecialChar(event) {
     let res = this.isZero(this.state.result) ? '' : this.state.result;
+    let cal = this.state.calculation;
+    cal = this.hasDecimalChar(cal[cal.length - 1]) ? cal.slice(0, -1) : cal;
     this.setState({ 
-      result: res + this.state.calculation + event.target.value,
+      result: res + cal + " " + event.target.value + " ",
       calculation: 0
     });
   }
