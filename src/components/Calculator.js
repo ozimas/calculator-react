@@ -6,70 +6,63 @@ class Calculator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      result: 0
+      calculation: 0,
+      result: ''
     };
     this.clickNumberButton = this.clickNumberButton.bind(this);
     this.clickSpecialChar = this.clickSpecialChar.bind(this);
     this.clickDecimalButton = this.clickDecimalButton.bind(this);
     this.clickClearResult = this.clickClearResult.bind(this);
     this.clickResultFinish = this.clickResultFinish.bind(this);
-    this.resultIsZero = this.resultIsZero.bind(this);
   }
   clickNumberButton(event) {
-    if (this.resultIsZero()) {
-      this.setState({ result: event.target.value });
+    if (this.isZero(this.state.calculation)) {
+      this.setState({ calculation: event.target.value });
     } else {
-      this.setState({ result: this.state.result + event.target.value });
+      this.setState({ calculation: this.state.calculation + event.target.value });
     }
   }
   clickSpecialChar(event) {
-    let result = this.state.result;
-    if (event.target.value === "-" && !/-/.test(result[result.length - 1])) {
-      this.setState({
-        result: result + event.target.value
-      });
-    } else if (/\+|\*|\/|\./.test(result[result.length - 1])) {
-      this.setState({
-        result: result.substring(0, result.length - 1) + event.target.value
-      });
-    } else if (!/-/.test(result[result.length - 1])) {
-      this.setState({
-        result: result + event.target.value
-      });
-    } else {
-      this.setState({
-        result: result.substring(0, result.length - 2) + event.target.value
-      });
-    }
+    this.setState({ 
+      result: this.state.result + this.state.calculation + event.target.value,
+      calculation: 0
+    });
   }
   clickDecimalButton(event) {
-    let result = this.state.result;
-    let regex1 = !/\+|-|\*|\/|\./.test(result[result.length - 1]);
-    let regex2 = !/\.\d+$/.test(result);
-    if (regex1 && regex2) {
+    if (!this.hasDecimalChar(this.state.calculation)) {
       this.setState({
-        result: result + event.target.value
+        calculation: this.state.calculation + event.target.value
       });
     }
   }
   clickClearResult() {
     this.setState({
-      result: 0
+      result: "",
+      calculation: 0
     });
   }
-  clickResultFinish() {
+  clickResultFinish(event) {
     this.setState({
+      result: this.state.result + this.state.calculation
+    }, () => {
       // eslint-disable-next-line
-      result: eval(this.state.result)
+      let res = eval(this.state.result);
+      this.setState({
+        result: this.state.result + '=' + res
+      })
     });
   }
-  resultIsZero() {
-    return /^0$/.test(this.state.result);
+  isZero(arg) {
+    return /^0$/.test(arg);
+  }
+  hasDecimalChar(arg){
+    return /\./.test(arg);
   }
   render() {
     return (
       <div className="calculator">
         <Result value={this.state.result} />
+        <Result value={this.state.calculation} />
         <div className="buttons__container">
           <Button value="1" id="one" clickFunc={this.clickNumberButton} />
           <Button value="2" id="two" clickFunc={this.clickNumberButton} />
